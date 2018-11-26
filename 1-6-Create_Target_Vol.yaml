@@ -1,0 +1,30 @@
+---
+- name: ontap
+  hosts: localhost 
+  gather_facts: no
+  connection: local
+  vars:
+    hostname: "{{ hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    vserver:  "{{ vserver }}"
+    aggr: "{{ agg }}"
+    vol_name: "{{ vol_name }}"
+
+  tasks:
+  - name: Create FlexVol
+    na_ontap_volume:
+      state: present
+      name: "{{ vol_name }}"
+      vserver: "{{ vserver }}"
+      aggregate_name: "{{ aggr }}"
+      size: 15 
+      size_unit: gb
+      policy: default
+#      junction_path: "/{{ vol_name }}"
+      type: DP
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+#      https: true
+#      validate_certs: false

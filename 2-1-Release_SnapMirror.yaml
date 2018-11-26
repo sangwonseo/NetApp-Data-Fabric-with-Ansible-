@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: false 
+  connection: local
+  name: break snapmirror 
+  tasks: 
+  - name: Remove SnapMirror
+    na_ontap_snapmirror: 
+      state: absent 
+      source_vserver:  "{{ source_vserver }}"
+      destination_vserver: "{{ destination_vserver }}"
+      source_hostname: "{{ source_hostname }}" 
+      destination_path: svm_CVO:ansible_target
+      source_volume: "{{ source_volume }}"
+      destination_volume: "{{ destination_volume }}"
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      
+- hosts: 49.254.105.123
+  gather_facts: false
+  tasks:
+    - name: Release SnapMirror 
+      raw: snapmirror release -destination-path svm_CVO:ansible_target -force

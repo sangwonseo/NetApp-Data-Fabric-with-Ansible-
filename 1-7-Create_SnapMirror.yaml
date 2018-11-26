@@ -1,0 +1,24 @@
+---
+- hosts: localhost 
+  name: ontap snapmirror
+  gather_facts: false
+  connection: local
+  vars:
+    hostname: "{{ hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    source_vserver:  "{{ source_vserver }}"
+    destination_vserver: "{{ destination_vserver }}"
+    source_volume: "{{ source_volume }}"
+    destination_volume: "{{ destination_volume }}"
+  tasks: 
+   - name: Create SnapMirror 
+     na_ontap_snapmirror:
+       state: present
+       hostname: "{{ hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       source_vserver:  "{{ source_vserver }}"
+       destination_vserver: "{{ destination_vserver }}"
+       source_volume: "{{ source_volume }}"
+       destination_volume: "{{ destination_volume }}"

@@ -1,0 +1,22 @@
+---
+- name: ontap
+  hosts: localhost 
+  gather_facts: no
+  connection: local
+  tasks:
+  - name: Change RW
+    na_ontap_volume:
+      state: present 
+      name: "{{ vol_name }}"
+      vserver: "{{ vserver }}"
+      type: RW 
+      policy: default 
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+- hosts: 54.82.76.199
+  gather_facts: no
+  tasks:
+    - name: Set Junction Path
+      raw: volume mount -vserver "{{ vserver }}" -volume "{{ vol_name }}" -junction-path "/{{ vol_name }}"

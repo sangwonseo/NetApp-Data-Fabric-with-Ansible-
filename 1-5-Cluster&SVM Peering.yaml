@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    hostname: "{{ hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    dest_hostname: "{{ dest_hostname }}"
+    source_cluster_name: "{{ source_cluster_name }}"
+    dest_cluster_name: "{{ dest_cluster_name }}"
+    source_intercluster_lif: "{{ source_intercluster_lif }}"
+    dest_intercluster_lif: "{{ dest_intercluster_lif }}"
+  name: cluster&SVM peering
+  tasks:
+  - name: Create cluster peer
+    na_ontap_cluster_peer:
+      state: present
+      source_intercluster_lif: "{{ source_intercluster_lif }}"
+      dest_intercluster_lif: "{{ dest_intercluster_lif }}"
+      passphrase: netapp123
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      dest_username: admin 
+      dest_password: Netapp123
+      source_cluster_name: "{{ source_cluster_name }}" 
+      dest_cluster_name: "{{ dest_cluster_name }}"
+      dest_hostname: "{{ dest_hostname }}"
+      
+  - name: Source vserver peer create
+    na_ontap_vserver_peer:
+      state: present
+      peer_vserver: "{{ peer_vserver }}"
+      peer_cluster: "{{ peer_cluster }}"
+      vserver: "{{ vserver }}"
+      applications: snapmirror
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      dest_hostname: "{{ dest_hostname }}"    

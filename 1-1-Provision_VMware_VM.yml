@@ -1,0 +1,52 @@
+﻿---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+ 
+  tasks:
+  # get date
+#  - set_fact: creationdate="{{lookup('pipe','date "+%Y/%m/%d %H:%M"')}}"
+  # Create a VM from a template
+  - name: create the VM
+    vmware_guest:
+      hostname: '{{ vsphere_host }}'
+      username: '{{ vsphere_user }}'
+      password: '{{ vsphere_password }}'
+      validate_certs: false
+      esxi_hostname: '{{ esxi_hostname }}' 
+      datacenter: '{{ vsphere_datacenter }}'
+      folder: '{{ vsphere_folder  }}'
+      name: '{{ inventory_hostname }}'
+      state: poweredon
+      guest_id: '{{ guest_id }}'
+#      annotation: "{{ notes }} - {{ creationdate }}"
+      disk:
+      - size_gb: 40
+        type: thin
+        datastore: '{{ vsphere_datastore }}'
+      networks:
+      - name: '{{ guest_network }}'
+        ip: '{{ guest_custom_ip }}'
+        netmask: 255.255.255.0
+        gateway: 49.254.105.1
+        dns_servers:
+        - 8.8.8.8
+        - 168.126.63.1
+      hardware:
+        memory_mb: '{{ guest_memory }}'
+        num_cpus: '{{ guest_vcpu }}'
+      customization:
+        dns_servers:
+        - 8.8.8.8
+        - 168.126.63.1 
+        domain : vsphere.local
+        hostname: '{{ inventory_hostname }}'
+      template: '{{  guest_template  }}'
+      wait_for_ip_address: yes  
+   - name: add to ansible hosts file
+     lineinfile:
+       dest: /etc/ansible/hosts
+       insertafter: '^\[{{ ansible_host_group }}\]'
+       line: '{{ item }}'
+     with_items: '{{play_hosts}}'
+     run_once: true
