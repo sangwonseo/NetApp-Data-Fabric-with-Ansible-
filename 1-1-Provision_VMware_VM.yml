@@ -43,10 +43,10 @@
         hostname: '{{ inventory_hostname }}'
       template: '{{  guest_template  }}'
       wait_for_ip_address: yes  
-   - name: add to ansible hosts file
-     lineinfile:
-       dest: /etc/ansible/hosts
-       insertafter: '^\[{{ ansible_host_group }}\]'
-       line: '{{ item }}'
-     with_items: '{{play_hosts}}'
-     run_once: true
+#   - name: add to ansible hosts file
+#     lineinfile:
+#       dest: /etc/ansible/hosts
+#       insertafter: '^\[{{ ansible_host_group }}\]'
+#       line: '{{ item }}'
+#     with_items: '{{play_hosts}}'
+#     run_once: true
