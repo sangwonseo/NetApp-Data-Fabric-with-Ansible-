@@ -1,7 +1,5 @@
 ---
 - hosts: localhost
-  gather_facts: false
-  connection: local
   
    tasks: 
   - name: Install NFS-UTILS package for Client Server
@@ -11,6 +9,7 @@
     file: 
       path: /srv
       state: directory
+      
   - name: Mount nfs export 
     mount: 
       state: mounted
