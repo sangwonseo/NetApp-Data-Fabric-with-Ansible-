@@ -6,12 +6,12 @@
     
   - name: Verify mount directory exists 
     file: 
-      path: /srv
+      path: /mnt/test
       state: directory
       
   - name: Mount nfs export 
     mount: 
       state: mounted
-      path: /srv
+      path: /mnt/test
       src: "{{ address }}:/{{ volname }}" 
       fstype: nfs
