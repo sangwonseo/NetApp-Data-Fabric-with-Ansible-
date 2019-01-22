@@ -4,9 +4,6 @@
   connection: local
  
   tasks:
-  # get date
-#  - set_fact: creationdate="{{lookup('pipe','date "+%Y/%m/%d %H:%M"')}}"
-  # Create a VM from a template
   - name: create the VM
     vmware_guest:
       hostname: '{{ vsphere_host }}'
@@ -19,7 +16,6 @@
       name: '{{ inventory_hostname }}'
       state: poweredon
       guest_id: '{{ guest_id }}'
-#      annotation: "{{ notes }} - {{ creationdate }}"
       disk:
       - size_gb: 40
         type: thin
@@ -43,10 +39,3 @@
         hostname: '{{ inventory_hostname }}'
       template: '{{  guest_template  }}'
       wait_for_ip_address: yes  
-#   - name: add to ansible hosts file
-#     lineinfile:
-#       dest: /etc/ansible/hosts
-#       insertafter: '^\[{{ ansible_host_group }}\]'
-#       line: '{{ item }}'
-#     with_items: '{{play_hosts}}'
-#     run_once: true
